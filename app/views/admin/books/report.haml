@@ -1,0 +1,17 @@
+.d-flex.py-2
+  .flex-grow-1
+    %h1 Book Report
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Author name
+      %th Favourite Count
+
+  %tbody
+    - @books.each do |book|
+      %tr
+        %td= book.title
+        %td= book.author_name
+        %td= book.favourite_books.count

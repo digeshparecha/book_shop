@@ -1,0 +1,12 @@
+a {
+  text-decoration: none;
+}
+label.required:after {
+  content:" *";
+}
+
+.remove-alert{ float: right; font-weight: 700; cursor: pointer; }
+
+.pointer-cursor{
+  cursor: pointer;
+}

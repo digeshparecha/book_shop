@@ -1,0 +1,46 @@
+= bootstrap_form_tag(url: root_path, inline_errors: true, method: :get) do |f|
+  .d-flex.p-3.shadow.mt-3.align-items-center
+    .flex-grow-1.me-2.pt-3
+      = f.text_field :q, skip_label:true, placeholder: "Search by book name, author or some description", value: params[:q]
+    .pt-3.me-2
+      = f.select :category_id, options_for_select(Category.pluck(:name, :id), selected: params[:category_id]),include_blank: "Category", skip_label:true
+    = f.submit 'Search', class: "btn btn-primary h-100 me-2", data: {"disable-with": "Searching.."}
+    = link_to "Reset", root_path, class: "btn btn-secondary h-100", data: {"disable-with": "Reseting.."}
+
+#search_result.my-5
+
+  %ul#myTab.nav.nav-tabs{:role => "tablist"}
+    %li.nav-item{:role => "presentation"}
+      %button#home-tab.nav-link.active{"aria-controls" => "all", "aria-selected" => "true", "data-bs-target" => "#all", "data-bs-toggle" => "tab", :role => "tab", :type => "button"} All (#{@books.count || 0})
+    - if current_user.present? 
+      %li.nav-item{:role => "presentation"}
+        %button#favourite-tab.nav-link{"aria-controls" => "fv_book", "aria-selected" => "false", "data-bs-target" => "#fv_book", "data-bs-toggle" => "tab", :role => "tab", :type => "button"} Favourite (#{@fav_books.count || 0})
+  #myTabContent.tab-content
+    #all.tab-pane.fade.show.active.p-3{"aria-labelledby" => "home-tab", :role => "tabpanel"}
+      .row
+        = render partial: "search_items", locals: {books: @books, is_search: true, fav_book: @fav_books&.pluck(:book_id) || []}
+    - if current_user.present? 
+      #fv_book.tab-pane.fade.p-3{"aria-labelledby" => "favourite-tab", :role => "tabpanel"}
+        #fav_book_list.row
+          = render partial: "search_items", locals: {books: @fav_books, is_search: false}
+
+
+:javascript
+  $(document).on("click", ".unfavourite", function() {
+    book_id = $(this).data("l");
+    $(this).attr("src", "#{asset_path('loader.gif')}")
+    $(this).removeClass("unfavourite");
+    $.ajax({
+      type: "DELETE",
+      url: "/books/"+ book_id +"/remove_from_favourite",
+    });
+  });
+  $(document).on("click", ".favourite", function() {
+    book_id = $(this).data("l");
+    $(this).attr("src", "#{asset_path('loader.gif')}")
+    $(this).removeClass("favourite");
+    $.ajax({
+      type: "GET",
+      url: "/books/"+ book_id +"/add_to_favourite",
+    });
+  });

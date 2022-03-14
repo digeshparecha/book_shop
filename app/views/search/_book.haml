@@ -1,0 +1,10 @@
+.col-md-3.col-12{id: "book_#{book.id}"} 
+  .card.w-100
+    .card-body
+      %h5.card-title= book.title
+      %h6.card-subtitle.mb-2.text-muted= book.author_name
+      %p.card-text= book.description
+      - if is_fav
+        = image_tag "like-able.svg", id:"fv_#{book.id}","data-l": "#{book.id}", class: "unfavourite fv_#{book.id} pointer-cursor"
+      - else
+        = image_tag "like-disable.svg",  id:"ufv_#{book.id}","data-l": "#{book.id}", class: "favourite ufv_#{book.id} pointer-cursor"

@@ -1,0 +1,40 @@
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    %title BookShop
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %link{:crossorigin => "anonymous", :href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", :integrity => "sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==", :referrerpolicy => "no-referrer", :rel => "stylesheet"}
+  = render partial: "layouts/header"
+  %body
+    .container
+      .row
+        .col-lg-3.admin-menu.pt-3
+          .menu-item.p-3
+            = active_link_to admin_books_path do
+              %h5 
+                %i.fa.fa-book.me-2
+                Books
+          .menu-item.p-3.ps-5
+            = active_link_to report_admin_books_path do
+              %h5
+                %i.fa.fa-file-text.me-2
+                Report
+          .menu-item.p-3
+            = active_link_to admin_categories_path do
+              %h5
+                %i.fa.fa-list.me-2
+                Categories
+          .menu-item.p-3
+            = active_link_to admin_users_path do
+              %h5
+                %i.fa.fa-users.me-2
+                Users
+        .col-lg-9
+          = yield
+
+
+          

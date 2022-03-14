@@ -1,0 +1,12 @@
+- if current_user.present? 
+  - if @favourite.present? && @favourite.destroyed?
+    $(".fv_#{@favourite.book_id}").attr("src","#{asset_path('like-disable.svg')}");
+    $(".fv_#{@favourite.book_id}").addClass("favourite");
+    $(".fv_#{@favourite.book_id}").removeClass("unfavourite");
+    $(".fv_#{@favourite.book_id}").attr("id", "ufv_#{@favourite.book_id}");
+    $(".fv_#{@favourite.book_id}").addClass("ufv_#{@book.id}");
+    $(".fv_#{@favourite.book_id}").removeClass("fv_#{@book.id}");
+    $("#favourite-tab").text("Favourite (#{@fav_books || 0})")
+    $("#book_#{@book.id}").remove();
+-else 
+  window.location = "/users/sign_in";

@@ -1,0 +1,22 @@
+.mt-5
+  %h2.mb-5 Dashboard
+  %ul#myTab.nav.nav-tabs{:role => "tablist"}
+    %li.nav-item{:role => "presentation"}
+      %button#home-tab.nav-link.active{"aria-controls" => "favourite", "aria-selected" => "true", "data-bs-target" => "#favourite", "data-bs-toggle" => "tab", :role => "tab", :type => "button"} Favourite Books (#{@books.count || 0})
+    %li.nav-item{:role => "presentation"}
+      = link_to "Profile", edit_user_registration_path, class: "nav-link btn"
+  #myTabContent.tab-content
+    #favourite.tab-pane.fade.show.active.p-3{"aria-labelledby" => "home-tab", :role => "tabpanel"}
+      .row
+        = render partial: "search/search_items", locals: {books: @books, is_search: false}
+
+:javascript
+  $(document).on("click", ".unfavourite", function() {
+    book_id = $(this).data("l");
+    $(this).attr("src", "#{asset_path('loader.gif')}")
+    $(this).removeClass("unfavourite");
+    $.ajax({
+      type: "DELETE",
+      url: "/books/"+ book_id +"/remove_from_favourite",
+    });
+  });

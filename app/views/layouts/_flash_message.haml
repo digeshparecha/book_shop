@@ -1,0 +1,13 @@
+- flash.each do |key, value|
+  %p{:class => "#{flash_class(key)} my-0 text-center"}
+    = value
+    %span.remove-alert X
+    - flash.discard(key)
+
+:javascript
+  $(function() {
+    $('.remove-alert').on('click', function(){
+      $(".alert").alert('close');
+    });
+    $('.alert').fadeOut(5000);
+  });
